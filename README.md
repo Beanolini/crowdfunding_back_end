@@ -6,13 +6,13 @@ Bianca Di Biase
 
 ### Concept/Name
 
-Books for Change is a service that distributes real, physical books to metro and regional communities across Australia. We also offer educational programs to help improve literacy as well as reading and comprehension skills for all ages. Books can give ideas, open minds, expand perspectives, offer growth and learning, and show people what’s possible. We believe that the gift of reading is something that can and should be available to everyone.
-
-_ Books for love _ Books for growth _ Books for hope _ Books for justice _ Books for power _ Books for learning _ Books for possibility _ Books for healing _ Books for connection _ Books for understanding _ Books for diversity _ Books for inclusivity
+Help a Halfling is dedicated to helping Halflings achieve their
+long-held dreams and aspirations. These wee folk have big dreams but
+they need your help to make them come true!
 
 ### Intended Audience/User Stories
 
-The target audience for Books for Change are individuals, groups and companies who are interested in helping empower and uplift others through book distribution and education, particularly those in marginalised communities.
+The target audience for Help a Halfling is anyone who would like to help make a positive difference in the life of a halfling.
 
 ### Front End Pages/Functionality
 
