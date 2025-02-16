@@ -107,12 +107,24 @@ class PledgeList(APIView):
     
     def post(self, request):
         serializer = PledgeSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save(supporter=request.user)
+        print(request.data)
+        print(request.user)
+        try:
+            if serializer.is_valid():
+                serializer.save(supporter=request.user)
+                return Response(
+                    serializer.data, 
+                    status=status.HTTP_201_CREATED
+                )
+            else:
+                print(serializer.errors)
+        except e as Exception:
+            print(e)
             return Response(
-                serializer.data, 
-                status=status.HTTP_201_CREATED
-            )
+            serializer.errors,
+            status=status.HTTP_400_BAD_REQUEST
+        )
+
         return Response(
             serializer.errors,
             status=status.HTTP_401_UNAUTHORIZED
