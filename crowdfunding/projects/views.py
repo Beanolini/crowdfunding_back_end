@@ -50,11 +50,11 @@ class ProjectList(APIView):
         print(f"Serializer Errors: {serializer.errors}")
         return Response(
             serializer.errors,
-            status=status.HTTP_401_UNAUTHORIZED
+            status=status.HTTP_400_BAD_REQUEST  # Change to 400 for validation errors
         )
 
-class ProjectDetail(APIView):
 
+class ProjectDetail(APIView):
     permission_classes = [
         permissions.IsAuthenticatedOrReadOnly,
         IsOwnerOrReadOnly
@@ -67,6 +67,8 @@ class ProjectDetail(APIView):
             return project
         except Project.DoesNotExist:
             raise Http404
+        except PermissionDenied:
+            raise PermissionDenied("You do not have permission to view this project.")
         
     def get(self, request, pk):
         project = self.get_object(pk)
@@ -81,7 +83,8 @@ class ProjectDetail(APIView):
             partial=True
         )
         if serializer.is_valid():
-            serializer.save()
+            # Ensure that the owner is not modified during the update
+            serializer.save(owner=project.owner)
             return Response(serializer.data)
 
         return Response(
@@ -96,6 +99,7 @@ class ProjectDetail(APIView):
             {"message": "Project deleted successfully."},
             status=status.HTTP_204_NO_CONTENT
         )
+
 
 class PledgeList(APIView):
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
@@ -118,20 +122,20 @@ class PledgeList(APIView):
                 )
             else:
                 print(serializer.errors)
-        except e as Exception:
+        except Exception as e:
             print(e)
             return Response(
-            serializer.errors,
-            status=status.HTTP_400_BAD_REQUEST
-        )
+                serializer.errors,
+                status=status.HTTP_400_BAD_REQUEST
+            )
 
         return Response(
             serializer.errors,
-            status=status.HTTP_401_UNAUTHORIZED
+            status=status.HTTP_400_BAD_REQUEST  # Changed from 401 to 400 for validation errors
         )
 
-class PledgeDetail(APIView):
 
+class PledgeDetail(APIView):
     permission_classes = [
         permissions.IsAuthenticatedOrReadOnly,
         IsSupporterOrReadOnly
@@ -165,6 +169,7 @@ class PledgeDetail(APIView):
             serializer.errors,
             status=status.HTTP_400_BAD_REQUEST
         )
+
     def delete(self, request, pk):
         pledge = self.get_object(pk)
         pledge.delete()
